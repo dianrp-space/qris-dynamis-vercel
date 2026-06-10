@@ -30,23 +30,21 @@ npm install
 
 ### API Endpoints:
 
-**1. Generate QRIS Dinamis:**
+**1. Generate QRIS Dinamis dari Static:**
 
 ```bash
 curl -X POST http://localhost:3001/api/generate \
   -H "Content-Type: application/json" \
-  -H "X-API-Key: your_secure_api_key_here" \
   -d '{
     "staticQris": "QRIS_CODE_HERE",
     "amount": 1000
   }'
 ```
 
-**2. Parse QR dari Gambar:**
+**2. Ambil static QR dari Gambar QRIS:**
 
 ```bash
 curl -X POST http://localhost:3001/api/parse-image \
-  -H "X-API-Key: your_secure_api_key_here" \
   -F "file=@qr_image.jpg"
 ```
 
@@ -71,10 +69,8 @@ curl -X POST http://localhost:3001/api/parse-image \
 
 ## Frontend Configuration
 
-Frontend menggunakan API key yang sama. Update di `script.js`:
+API dan Frontend tanpa menggunakan API key.
 
-```javascript
-// API Key - sesuaikan dengan backend .env
-const API_KEY = "your_secure_api_key_here";
-```
+Feel free to use.
+Bisa pakai macrodroid untuk tangkap notifikasi dan kirim webhook.
 
