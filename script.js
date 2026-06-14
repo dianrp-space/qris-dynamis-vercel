@@ -131,3 +131,40 @@ document.getElementById("parseBtn").onclick = async function () {
     alert("Failed to parse QR from image!");
   }
 };
+
+// Parse QR dari URL ke textarea
+document.getElementById("parseUrlBtn").onclick = async function () {
+  const imageUrl = document.getElementById("qrImageUrl").value.trim();
+  if (!imageUrl) {
+    alert("Please enter a valid image URL first!");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/parse-image-url`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ imageUrl }),
+    });
+
+    if (!res.ok) {
+      alert("Failed to parse QR from URL! Make sure the URL is accessible.");
+      return;
+    }
+
+    const data = await res.json();
+    if (data.qris) {
+      document.getElementById("staticQris").value = data.qris;
+      document.getElementById("qrPreview").src = imageUrl;
+      document.getElementById("qrPreview").style.display = "block";
+      generateQRIS(); // Auto generate setelah parse
+    } else {
+      alert("Failed to find QR code in the provided URL image!");
+    }
+  } catch (error) {
+    console.error("Error parsing QR from URL:", error);
+    alert("An error occurred while parsing the QR code.");
+  }
+};

@@ -27,6 +27,11 @@
         ></textarea>
         <label>Or Upload QRIS Image Here:</label>
         <input type="file" id="qrImageInput" accept="image/*" />
+        <label>Or Parse from Image URL:</label>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <input type="url" id="qrImageUrl" placeholder="https://example.com/qr.jpg" style="flex: 1;" />
+          <button id="parseUrlBtn" type="button" style="margin: 0; padding: 10px 15px; width: auto;">Scan URL</button>
+        </div>
         <img
           id="qrPreview"
           style="
