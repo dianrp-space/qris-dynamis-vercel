@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation - DRP Network Solutions</title>
+    <link rel="icon" type="image/png" href="images/qris.png" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .doc-content {
+        text-align: left;
+        line-height: 1.6;
+      }
+      .doc-content h2, .doc-content h3 {
+        color: #2c3e50;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      .doc-content pre {
+        background: #f4f4f4;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+      }
+      .doc-content code {
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 14px;
+      }
+      .doc-content ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+      .endpoint-block {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+      }
+      .method-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 14px;
+        margin-right: 10px;
+      }
+      .get { background: #61affe; color: white; }
+      .post { background: #49cc90; color: white; }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-inner">
+        <img src="images/logo_blue.webp" alt="Logo" class="logo" />
+        <span class="site-title">DRP Network Solutions - API Documentation</span>
+      </div>
+    </header>
+    
+    <div class="container doc-content" style="max-width: 800px;">
+      <div style="margin-bottom: 20px;">
+        <a href="index.html" style="text-decoration: none; color: #007bff;">&larr; Back to Generator</a>
+      </div>
+      
+      <h1>QRIS Dynamic Generator API</h1>
+      <p>This API allows you to programmatically generate dynamic QRIS codes, parse QRIS strings from images, and check server health. The base URL for all API requests is your server's root domain, or <code>http://localhost:3001</code> if running locally.</p>
+
+      <div class="endpoint-block">
+        <h2><span class="method-badge get">GET</span> /api/health</h2>
+        <p>Checks the health status of the API server.</p>
+        
+        <h3>Response</h3>
+        <pre><code>{
+  "status": "OK",
+  "timestamp": "2026-06-14T21:00:00.000Z"
+}</code></pre>
+      </div>
+
+      <div class="endpoint-block">
+        <h2><span class="method-badge post">POST</span> /api/generate</h2>
+        <p>Generates a dynamic QRIS string and QR code image by injecting an amount into a static QRIS string.</p>
+        
+        <h3>Request Headers</h3>
+        <ul>
+          <li><code>Content-Type: application/json</code></li>
+        </ul>
+
+        <h3>Request Body</h3>
+        <pre><code>{
+  "staticQris": "000201010211...", // Required: The static QRIS string
+  "amount": 10000,               // Required: The transaction amount (number)
+  "fee": 0                       // Optional: Service fee (number, defaults to 0)
+}</code></pre>
+
+        <h3>Response</h3>
+        <pre><code>{
+  "dynamicQris": "000201010212...", // The generated dynamic QRIS string
+  "qrImage": "data:image/png;base64,iVBORw0K..." // Base64 encoded PNG image
+}</code></pre>
+      </div>
+
+      <div class="endpoint-block">
+        <h2><span class="method-badge post">POST</span> /api/parse-image</h2>
+        <p>Extracts the QRIS string from an uploaded QR code image.</p>
+        
+        <h3>Request Headers</h3>
+        <ul>
+          <li><code>Content-Type: multipart/form-data</code></li>
+        </ul>
+
+        <h3>Request Body</h3>
+        <p>Send form data with a single field named <code>file</code> containing the image file (JPG, PNG, etc.).</p>
+
+        <h3>Response</h3>
+        <pre><code>{
+  "qris": "000201010211..." // The parsed QRIS string
+}</code></pre>
+      </div>
+
+      <div class="endpoint-block">
+        <h2><span class="method-badge post">POST</span> /api/parse-image-url</h2>
+        <p>Extracts the QRIS string from an image hosted at a given URL.</p>
+        
+        <h3>Request Headers</h3>
+        <ul>
+          <li><code>Content-Type: application/json</code></li>
+        </ul>
+
+        <h3>Request Body</h3>
+        <pre><code>{
+  "imageUrl": "https://example.com/path/to/qr-image.jpg" // Required: URL of the QR image
+}</code></pre>
+
+        <h3>Response</h3>
+        <pre><code>{
+  "qris": "000201010211..." // The parsed QRIS string
+}</code></pre>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <img src="images/logo_blue.webp" alt="Footer Logo" />
+        <span>&copy; 2026 DRP Network Solutions</span>
+        <span style="margin: 0 10px;">|</span>
+        <a href="index.html" style="color: white; text-decoration: none;">QRIS Generator</a>
+      </div>
+    </footer>
+  </body>
+</html>
