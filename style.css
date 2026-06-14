@@ -80,7 +80,8 @@ h1 {
 }
 .input-section textarea,
 .input-section input[type="number"],
-.input-section input[type="text"] {
+.input-section input[type="text"],
+.input-section input[type="url"] {
   width: 100%;
   margin-top: 4px;
   padding: 8px;
@@ -89,6 +90,7 @@ h1 {
   background: #232b4a;
   color: #fff;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 .input-section textarea:focus,
 .input-section input:focus {
