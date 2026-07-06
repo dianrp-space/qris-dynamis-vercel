@@ -79,8 +79,7 @@ Content-Type: application/json
 
 {
   "staticQris": "00020101021126610014COM...",
-  "amount": 1000,
-  "fee": 0
+  "amount": 1000
 }
 ```
 

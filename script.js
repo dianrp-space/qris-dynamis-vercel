@@ -27,7 +27,7 @@ async function generateQRIS() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ staticQris, amount, fee: 0 }),
+      body: JSON.stringify({ staticQris, amount }),
     });
 
     if (!res.ok) {

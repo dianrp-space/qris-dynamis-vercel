@@ -16,7 +16,7 @@ const upload = multer({
 });
 
 // Helper: parse static QRIS, inject nominal, return dynamic QRIS (dengan CRC)
-function generateDynamicQRIS(staticQris, amount, fee = 0) {
+function generateDynamicQRIS(staticQris, amount) {
   let qris = staticQris;
   if (qris.startsWith("000201")) {
     qris = qris.slice(0, 6) + "010212" + qris.slice(12);
@@ -41,7 +41,7 @@ function generateDynamicQRIS(staticQris, amount, fee = 0) {
   let tags = parseTags(qris);
   tags = tags.filter((t) => t.tag !== "54");
 
-  let nominal = String(Number(amount) + Number(fee));
+  let nominal = String(Number(amount));
   let nominalTag = { tag: "54", len: nominal.length, val: nominal };
   let idx53 = tags.findIndex((t) => t.tag === "53");
   if (idx53 !== -1) {
@@ -72,11 +72,11 @@ app.get("/api/health", (req, res) => {
 
 // Generate dynamic QRIS
 app.post("/api/generate", async (req, res) => {
-  const { staticQris, amount, fee } = req.body;
+  const { staticQris, amount } = req.body;
   if (!staticQris || !amount)
     return res.status(400).json({ error: "Missing data" });
   try {
-    const dynamicQris = generateDynamicQRIS(staticQris, amount, fee || 0);
+    const dynamicQris = generateDynamicQRIS(staticQris, amount);
     const qrImage = await QRCode.toDataURL(dynamicQris);
     res.json({ dynamicQris, qrImage });
   } catch (e) {
