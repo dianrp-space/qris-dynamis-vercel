@@ -128,6 +128,56 @@ Setting di Vercel Dashboard: **Settings → Environment Variables**
 - **Memory**: 1024 MB
 - **File upload max**: 4 MB (sudah di-set di multer)
 
+## 🌐 Custom Domain (Contoh: `qris.dianrp.com`)
+
+Vercel **GRATIS** untuk custom domain. Anda hanya bayar domain-nya saja.
+
+### Setup Custom Domain (5-10 menit)
+
+**1. Beli domain** (jika belum punya) di Cloudflare Registrar, Namecheap, Niagahoster, dll.
+
+**2. Tambah domain di Vercel:**
+- Buka https://vercel.com/dashboard
+- Pilih project `qris-dynamis-vercel`
+- **Settings → Domains → Add**
+- Ketik domain Anda (misal `qris.dianrp.com`)
+- Klik **Add**
+
+**3. Setting DNS di domain provider Anda:**
+
+Untuk **subdomain** (misal `qris.dianrp.com`):
+
+| Type | Name | Value | TTL |
+|------|------|-------|-----|
+| CNAME | qris | cname.vercel-dns.com | Auto / 3600 |
+
+Untuk **root domain** (misal `dianrp.com`):
+
+| Type | Name | Value | TTL |
+|------|------|-------|-----|
+| A | @ | 76.76.21.21 | Auto / 3600 |
+
+**Catatan Penting Cloudflare:**
+- Set Proxy ke **DNS only** (abu-abu, bukan orange/proxied)
+- Jika proxied, Vercel tidak bisa verifikasi SSL
+
+**4. Tunggu propagasi DNS** (5-30 menit, max 24 jam)
+
+**5. SSL otomatis** — Vercel auto-issue Let's Encrypt certificate.
+
+### Multiple Domain / Preview
+Tiap branch di Vercel otomatis dapat preview URL. Misal:
+- `main` branch → `qris.dianrp.com` (production)
+- `develop` branch → `qris-dev.dianrp.com` (staging)
+
+### Multi-Domain
+Bisa attach banyak domain sekaligus di Vercel Dashboard. Tiap deployment otomatis support semua.
+
+### Rekomendasi Registrar
+- **Cloudflare Registrar** — at cost pricing, no markup
+- **Namecheap** — UI mudah, WHOIS guard gratis
+- **Niagahoster** — bayar IDR, support lokal Indonesia
+
 ## 🌐 Cara Kerja
 
 1. **Frontend** (HTML/CSS/JS) di-serve langsung dari root
